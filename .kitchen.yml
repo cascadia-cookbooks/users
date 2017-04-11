@@ -1,0 +1,15 @@
+---
+
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu/xenial64
+  - name: ubuntu/trusty64
+  - name: centos/7
+  - name: centos/6
+  - name: debian/jessie64
+  - name: debian/wheezy64
