@@ -13,3 +13,9 @@ platforms:
   - name: centos/6
   - name: debian/jessie64
   - name: debian/wheezy64
+
+suites:
+  - name: default
+    data_bags_path: "data_bags"
+    run_list:
+      - recipe[cop_users]
