@@ -32,6 +32,7 @@ users.each do |u|
         when 'create'
             directory "#{home}/.ssh" do
                 owner user['id']
+                group user['id']
                 mode  0700
             end
 
@@ -51,6 +52,7 @@ users.each do |u|
 
             file "#{home}/.ssh/authorized_keys" do
                 owner   user['id']
+                group   user['id']
                 mode    0600
                 content "# Chef generated file. Edits will be lost.\n#{user['ssh_keys'].join("\n")}"
                 backup  false
