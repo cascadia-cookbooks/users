@@ -1,0 +1,7 @@
+{
+    "id": "test",
+    "action": "create",
+    "comment": "Test User",
+    "groups": ["sudo"],
+    "ssh_keys": ["ssh-rsa TEST-KEY"]
+}
