@@ -1,2 +1,3 @@
 data_bags/users/*
 !data_bags/users/.gitkeep
+.kitchen/
