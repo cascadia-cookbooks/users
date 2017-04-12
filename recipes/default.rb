@@ -75,11 +75,3 @@ group "Admin for users: #{admin_users.join(', ')}" do
     action     :modify
     members    admin_users
 end
-
-# Enable passwordless sudo if set, include check so we dont multi-append on each Chef run
-if node['users']['passwordless_sudo']
-    execute "enable passwordless sudo for group #{admin_group}" do
-        command "echo '#check\n%#{admin_group}\tALL=(ALL)\tNOPASSWD: ALL' >> /etc/sudoers"
-        not_if  "grep '#check' /etc/sudoers"
-    end
-end
