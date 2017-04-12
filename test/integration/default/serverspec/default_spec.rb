@@ -7,6 +7,14 @@ describe 'users::default' do
         it { should have_home_directory "/home/test" }
     end
 
+    describe file('/home/test/.ssh') do
+        it { should be_directory }
+        it { should exist }
+        it { should be_mode 700 }
+        it { should be_owned_by 'test' }
+        it { should be_grouped_into 'test' }
+    end
+
     describe file('/home/test/.ssh/authorized_keys') do
         it { should be_file }
         it { should exist }
