@@ -8,8 +8,6 @@ The purpose of this cookbook is to create and manage system users.
 
 `node['users']['group']['admin']`: The name of the administrator group, defaults to `adm`.
 
-`node['users']['passwordless_sudo']`: Whether passwordless-sudo is enabled, defaults to `false`.
-
 ### Usage
 
 Create data-bags for each user to be managed. The following data structure is assumed:
