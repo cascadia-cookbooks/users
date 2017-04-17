@@ -19,3 +19,7 @@ suites:
     data_bags_path: "test/integration/data_bags"
     run_list:
       - recipe[cop_users]
+    attributes:
+      users:
+        user_list:
+          - test
