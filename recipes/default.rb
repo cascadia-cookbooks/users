@@ -3,63 +3,66 @@
 # Recipe:: default
 #
 
-users = data_bag('users')
+user_list = node['users']['user_list']
+users     = data_bag('users')
 
 admin_users = []
 admin_group = node['users']['group']['admin']
 
 users.each do |u|
     user = data_bag_item('users', u)
-    home = "/home/#{user['id']}"
-    admin_users << user['id'] if user['groups'] && user['groups'].include?('sudo')
+    if user_list.include?(user['id'])
+        home = "/home/#{user['id']}"
+        admin_users << user['id'] if user['groups'] && user['groups'].include?('sudo')
 
-    user_exists = (`id #{user['id']} || echo 'false'`.strip != 'false')
+        user_exists = (`id #{user['id']} || echo 'false'`.strip != 'false')
 
-    if user['action'].to_s != 'create' && !user_exists
-        admin_user.delete(user['id'])
-        Chef::Log.warn("Skipping action: '#{user['action']}' of no-existing user '#{user['id']}'")
-    else
-        user user['id'] do
-            home        home
-            shell       (user['shell'].nil? || user['shell'].empty? ? "/bin/bash" : user['shell'])
-            action      user['action']
-            comment     user['comment']
-            manage_home true
+        if user['action'].to_s != 'create' && !user_exists
+            admin_user.delete(user['id'])
+            Chef::Log.warn("Skipping action: '#{user['action']}' of no-existing user '#{user['id']}'")
+        else
+            user user['id'] do
+                home        home
+                shell       (user['shell'].nil? || user['shell'].empty? ? "/bin/bash" : user['shell'])
+                action      user['action']
+                comment     user['comment']
+                manage_home true
+            end
         end
-    end
 
-    case user['action']
-        when 'create'
-            directory "#{home}/.ssh" do
-                owner user['id']
-                group user['id']
-                mode  0700
-            end
+        case user['action']
+            when 'create'
+                directory "#{home}/.ssh" do
+                    owner user['id']
+                    group user['id']
+                    mode  0700
+                end
 
-            directory "#{home}/.config" do
-                owner user['id']
-                group user['id']
-                mode  0700
-            end
+                directory "#{home}/.config" do
+                    owner user['id']
+                    group user['id']
+                    mode  0700
+                end
 
-            execute "set #{user['id']} as owner of homedir configs" do
-                command "find #{home}/.config/ | xargs chown #{user['id']}; \
-                         find #{home}/.config/ -type f | xargs chmod 0600; \
-                         find #{home}/.config/ -type d | xargs chmod 0700"
-                action  :run
-                ignore_failure true
-            end
+                execute "set #{user['id']} as owner of homedir configs" do
+                    command "find #{home}/.config/ | xargs chown #{user['id']}; \
+                             find #{home}/.config/ -type f | xargs chmod 0600; \
+                             find #{home}/.config/ -type d | xargs chmod 0700"
+                    action  :run
+                    ignore_failure true
+                end
 
-            file "#{home}/.ssh/authorized_keys" do
-                owner   user['id']
-                group   user['id']
-                mode    0600
-                content "# Chef generated file. Edits will be lost.\n#{user['ssh_keys'].join("\n")}"
-                backup  false
-            end
+                file "#{home}/.ssh/authorized_keys" do
+                    owner   user['id']
+                    group   user['id']
+                    mode    0600
+                    content "# Chef generated file. Edits will be lost.\n#{user['ssh_keys'].join("\n")}"
+                    backup  false
+                end
 
-        when 'remove'
-            users.delete(user['id'])
+            when 'remove'
+                users.delete(user['id'])
+        end
     end
 end
 
