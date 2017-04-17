@@ -22,4 +22,8 @@ suites:
     attributes:
       users:
         user_list:
-          - test
+          - alice
+          - bob
+          # NOTE: omitting user "carol" for tests
+          - dan
+          # NOTE: including user without data bag
