@@ -1,7 +1,0 @@
-{
-    "id": "fail",
-    "action": "create",
-    "comment": "Fail User",
-    "groups": ["sudo"],
-    "ssh_keys": ["ssh-rsa FAIL-KEY"]
-}
