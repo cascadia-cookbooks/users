@@ -9,6 +9,13 @@ users     = data_bag('users')
 admin_users = []
 admin_group = node['users']['group']['admin']
 
+# Check that each user in user_list has a corresponding data bag
+user_list.each do |ul|
+    unless users.include?(ul)
+        Chef::Log.warn("User #{ul} has no corresponding data bag, skipping")
+    end
+end
+
 users.each do |u|
     user = data_bag_item('users', u)
     if user_list.include?(user['id'])
