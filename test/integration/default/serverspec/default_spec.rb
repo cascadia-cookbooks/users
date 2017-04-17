@@ -1,34 +1,34 @@
 require 'spec_helper'
 
 describe 'users::default' do
-    describe user('test') do
+    describe user('alice') do
         it { should exist }
-        it { should belong_to_group 'test' }
-        it { should have_home_directory "/home/test" }
+        it { should belong_to_group 'adm' }
+        it { should have_home_directory '/home/alice' }
     end
 
-    describe file('/home/test/.ssh') do
+    describe file('/home/alice/.ssh') do
         it { should be_directory }
         it { should exist }
         it { should be_mode 700 }
-        it { should be_owned_by 'test' }
-        it { should be_grouped_into 'test' }
+        it { should be_owned_by 'alice' }
+        it { should be_grouped_into 'alice' }
     end
 
-    describe file('/home/test/.ssh/authorized_keys') do
+    describe file('/home/alice/.ssh/authorized_keys') do
         it { should be_file }
         it { should exist }
-        it { should contain 'ssh-rsa TEST-KEY' }
+        it { should contain 'ssh-rsa alice-key' }
         it { should be_mode 600 }
-        it { should be_owned_by 'test' }
-        it { should be_grouped_into 'test' }
+        it { should be_owned_by 'alice' }
+        it { should be_grouped_into 'alice' }
     end
 
-    describe user('fail') do
+    describe user('carol') do
         it { should_not exist }
     end
 
-    describe file('/home/fail/.ssh') do
+    describe file('/home/carol/.ssh') do
         it { should_not exist }
     end
 end
