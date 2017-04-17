@@ -18,7 +18,7 @@ end
 
 users.each do |u|
     user = data_bag_item('users', u)
-    if user_list.include?(user['id'])
+    if user_list.include?(u)
         home = "/home/#{user['id']}"
         admin_users << user['id'] if user['groups'] && user['groups'].include?('sudo')
 
