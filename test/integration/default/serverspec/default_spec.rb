@@ -23,4 +23,12 @@ describe 'users::default' do
         it { should be_owned_by 'test' }
         it { should be_grouped_into 'test' }
     end
+
+    describe user('fail') do
+        it { should_not exist }
+    end
+
+    describe file('/home/fail/.ssh') do
+        it { should_not exist }
+    end
 end
