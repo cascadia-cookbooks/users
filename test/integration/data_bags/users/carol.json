@@ -1,0 +1,7 @@
+{
+    "id": "carol",
+    "action": "create",
+    "comment": "Carol Carter",
+    "groups": ["sudo"],
+    "ssh_keys": ["ssh-rsa carol-key"]
+}
