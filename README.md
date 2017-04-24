@@ -16,9 +16,31 @@ Create data-bags for each user to be managed. The following data structure is as
 .
 └── data_bags
     └── users
-        ├── user1.json
-        └── user2.json
+        ├── amy.json
+        ├── bob.json
+        ├── carl.json
+        ├── dumplefweez.json
+        └── ed.json
 ```
+
+### User List
+
+The `node['users']['user_list']` attribute controls which data-bags will be included in the `cop_users` run. This attribute can be set on a per-environment basis to include or exclude users from different environments. For example:
+```
+$ cat chef/environments/staging.rb
+default_attributes(
+    ...
+    users: {
+        user_list: %w(
+            amy
+            bob
+            carl
+            ed
+        )
+    },
+    ...
+```
+The `user_list` is based on the name of the data-bag, it has no knowledge of the contents. Make sure that your `user_list` references data-bag names and not expected user ID's.
 
 ### Data Bag Format
 
