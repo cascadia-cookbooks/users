@@ -42,6 +42,25 @@ default_attributes(
 ```
 The `user_list` is based on the name of the data-bag, it has no knowledge of the contents. Make sure that your `user_list` references data-bag names and not expected user ID's.
 
+### Group List
+
+The `node['users']['group_list']` attribute controls which groups will be updated during the `cop_users` run. This attribute can be set on a per environment basis to include or exclude groups from different environments. If a user is included in the `user_list` attribute and has the corresponding group in their `groups` data-bag attribute, they will be assigned to this group. If the user has an item in their `groups` attribute which is not included in the `group_list`, no action will take place. By default, a user is included in their own group regardless of whether this is present in either the `group_list` or their own `groups` attribute. Example:
+```
+$ cat chef/environments/staging.rb
+default_attributes(
+    ...
+    users: {
+        ...
+        group_list: %w(
+            sudo
+            engineers
+            accounting
+        )
+    },
+    ...
+```
+
+
 ### Data Bag Format
 
 This recipe expects a data bag in the following format:
@@ -51,7 +70,7 @@ This recipe expects a data bag in the following format:
     "id": "test",
     "action": "create",
     "comment": "Test User",
-    "groups": ["sudo"],
+    "groups": ["sudo", "engineers", "finance"],
     "ssh_keys": ["ssh-rsa TEST-KEY"]
 }
 ```
