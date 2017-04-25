@@ -6,8 +6,7 @@
 user_list = node['users']['user_list']
 users     = data_bag('users')
 
-admin_users = []
-admin_group = node['users']['group']['admin']
+group_list = node['users']['group_list']
 
 # Check that each user in user_list has a corresponding data bag
 user_list.each do |ul|
