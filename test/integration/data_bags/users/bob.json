@@ -2,6 +2,6 @@
     "id": "bob",
     "action": "create",
     "comment": "Bob Baker",
-    "groups": ["sudo"],
+    "groups": ["sudo", "umbrella", "engineers"],
     "ssh_keys": ["ssh-rsa bob-key"]
 }
