@@ -6,8 +6,7 @@
 user_list = node['users']['user_list']
 users     = data_bag('users')
 
-admin_users = []
-admin_group = node['users']['group']['admin']
+group_list = node['users']['group_list']
 
 # Check that each user in user_list has a corresponding data bag
 user_list.each do |ul|
@@ -20,13 +19,12 @@ users.each do |u|
     user = data_bag_item('users', u)
     if user_list.include?(u)
         home = "/home/#{user['id']}"
-        admin_users << user['id'] if user['groups'] && user['groups'].include?('sudo')
 
         user_exists = (`id #{user['id']} || echo 'false'`.strip != 'false')
 
         if user['action'].to_s != 'create' && !user_exists
             admin_user.delete(user['id'])
-            Chef::Log.warn("Skipping action: '#{user['action']}' of no-existing user '#{user['id']}'")
+            Chef::Log.warn("Skipping action: '#{user['action']}' of non-existing user '#{user['id']}'")
         else
             user user['id'] do
                 home        home
@@ -34,6 +32,13 @@ users.each do |u|
                 action      user['action']
                 comment     user['comment']
                 manage_home true
+            end
+
+            # Include user in their own group
+            group user['id'] do
+                group_name user['id']
+                action     :create
+                members    user['id']
             end
         end
 
@@ -73,15 +78,25 @@ users.each do |u|
     end
 end
 
-# Add 'vagrant' user to admin group when in development environment
-if node.chef_environment == "development"
-    admin_users << 'vagrant'
-end
-
 # NOTE: Members are reassigned each Chef run, not appeneded
-# Add users to admin group
-group "Admin for users: #{admin_users.join(', ')}" do
-    group_name admin_group
-    action     :modify
-    members    admin_users
+group_list.each do |g|
+    # Wipe member_list for each group
+    member_list = []
+
+    users.each do |u|
+        user = data_bag_item('users', u)
+        # Check that user_list allows user
+        if user_list.include?(u)
+            if user['groups'].include?(g)
+                member_list << user['id']
+            end
+        end
+    end
+
+    # Assign member_list to group
+    group g do
+        group_name g
+        action     :create
+        members    member_list
+    end
 end

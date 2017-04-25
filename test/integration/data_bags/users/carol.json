@@ -2,6 +2,6 @@
     "id": "carol",
     "action": "create",
     "comment": "Carol Carter",
-    "groups": ["sudo"],
+    "groups": ["lunch", "engineers"],
     "ssh_keys": ["ssh-rsa carol-key"]
 }
