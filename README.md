@@ -60,7 +60,6 @@ default_attributes(
     ...
 ```
 
-
 ### Data Bag Format
 
 This recipe expects a data bag in the following format:
