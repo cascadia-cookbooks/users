@@ -33,6 +33,13 @@ users.each do |u|
                 comment     user['comment']
                 manage_home true
             end
+
+            # Include user in their own group
+            group user['id'] do
+                group_name user['id']
+                action     :create
+                members    user['id']
+            end
         end
 
         case user['action']
