@@ -27,6 +27,8 @@ suites:
           # NOTE: omitting user "carol" for tests
           - dan
           # NOTE: including user without data bag
+          - ed
+          - francis
         group_list:
           - sudo
           - engineers

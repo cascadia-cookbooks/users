@@ -1,0 +1,7 @@
+{
+    "id": "francis",
+    "action": "create",
+    "comment": "Francis Franklin",
+    "groups": [],
+    "ssh_keys": ["ssh-rsa francis-key"]
+}

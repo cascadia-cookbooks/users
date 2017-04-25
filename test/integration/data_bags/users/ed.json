@@ -1,0 +1,6 @@
+{
+    "id": "ed",
+    "action": "create",
+    "comment": "Edward Edelweiss",
+    "ssh_keys": ["ssh-rsa ed-key"]
+}
