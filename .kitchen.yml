@@ -28,6 +28,7 @@ suites:
           - dan
           # NOTE: including user without data bag
           - ed
+          - francis
         group_list:
           - sudo
           - engineers
