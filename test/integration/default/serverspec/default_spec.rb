@@ -3,7 +3,9 @@ require 'spec_helper'
 describe 'users::default' do
     describe user('alice') do
         it { should exist }
-        it { should belong_to_group 'adm' }
+        it { should belong_to_group 'alice' }
+        it { should belong_to_group 'sudo' }
+        it { should belong_to_group 'umbrella' }
         it { should have_home_directory '/home/alice' }
     end
 
