@@ -87,7 +87,7 @@ group_list.each do |g|
         user = data_bag_item('users', u)
         # Check that user_list allows user
         if user_list.include?(u)
-            if user['groups'].include?(g)
+            if user['groups'] && user['groups'].include?(g)
                 member_list << user['id']
             end
         end
