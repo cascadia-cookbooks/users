@@ -56,14 +56,6 @@ users.each do |u|
                     mode  0700
                 end
 
-                execute "set #{user['id']} as owner of homedir configs" do
-                    command "find #{home}/.config/ | xargs chown #{user['id']}; \
-                             find #{home}/.config/ -type f | xargs chmod 0600; \
-                             find #{home}/.config/ -type d | xargs chmod 0700"
-                    action  :run
-                    ignore_failure true
-                end
-
                 file "#{home}/.ssh/authorized_keys" do
                     owner   user['id']
                     group   user['id']
