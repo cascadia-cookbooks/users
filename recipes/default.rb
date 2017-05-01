@@ -23,7 +23,6 @@ users.each do |u|
         user_exists = (`id #{user['id']} || echo 'false'`.strip != 'false')
 
         if user['action'].to_s != 'create' && !user_exists
-            admin_user.delete(user['id'])
             Chef::Log.warn("Skipping action: '#{user['action']}' of non-existing user '#{user['id']}'")
         else
             user user['id'] do
