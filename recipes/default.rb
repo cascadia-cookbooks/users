@@ -23,7 +23,6 @@ users.each do |u|
         user_exists = (`id #{user['id']} || echo 'false'`.strip != 'false')
 
         if user['action'].to_s != 'create' && !user_exists
-            admin_user.delete(user['id'])
             Chef::Log.warn("Skipping action: '#{user['action']}' of non-existing user '#{user['id']}'")
         else
             user user['id'] do
@@ -54,14 +53,6 @@ users.each do |u|
                     owner user['id']
                     group user['id']
                     mode  0700
-                end
-
-                execute "set #{user['id']} as owner of homedir configs" do
-                    command "find #{home}/.config/ | xargs chown #{user['id']}; \
-                             find #{home}/.config/ -type f | xargs chmod 0600; \
-                             find #{home}/.config/ -type d | xargs chmod 0700"
-                    action  :run
-                    ignore_failure true
                 end
 
                 file "#{home}/.ssh/authorized_keys" do
