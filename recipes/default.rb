@@ -55,12 +55,14 @@ users.each do |u|
                     mode  0700
                 end
 
-                file "#{home}/.ssh/authorized_keys" do
-                    owner   user['id']
-                    group   user['id']
-                    mode    0600
-                    content "# Chef generated file. Edits will be lost.\n#{user['ssh_keys'].join("\n")}"
-                    backup  false
+                if user['ssh_keys']
+                    file "#{home}/.ssh/authorized_keys" do
+                        owner   user['id']
+                        group   user['id']
+                        mode    0600
+                        content "# Chef generated file. Edits will be lost.\n#{user['ssh_keys'].join("\n")}"
+                        backup  false
+                    end
                 end
 
             when 'remove'
