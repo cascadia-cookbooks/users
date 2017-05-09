@@ -33,4 +33,8 @@ describe 'users::default' do
     describe file('/home/carol/.ssh') do
         it { should_not exist }
     end
+
+    describe file('/home/gertrude/.ssh/authorized_keys') do
+        it { should_not exist }
+    end
 end

@@ -29,6 +29,7 @@ suites:
           # NOTE: including user without data bag
           - ed
           - francis
+          - gertrude
         group_list:
           - sudo
           - engineers
