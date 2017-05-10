@@ -31,6 +31,7 @@ users.each do |u|
                 action      user['action']
                 comment     user['comment']
                 manage_home true
+                notifies    :reload, 'ohai[reload_passwd]', :immediately
             end
 
             # Include user in their own group
@@ -38,6 +39,7 @@ users.each do |u|
                 group_name user['id']
                 action     :create
                 members    user['id']
+                notifies   :reload, 'ohai[reload_passwd]', :immediately
             end
         end
 
@@ -91,5 +93,12 @@ group_list.each do |g|
         group_name g
         action     :create
         members    member_list
+        notifies   :reload, 'ohai[reload_passwd]', :immediately
     end
+end
+
+# Reload ohai 'etc' plugin
+ohai 'reload_passwd' do
+    action :nothing
+    plugin 'etc'
 end
